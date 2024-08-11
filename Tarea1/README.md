@@ -11,6 +11,8 @@
 	</a>
 </div>
 
+Repositorio: https://github.com/brandonT2002/SO1_2S2024_202112030
+
 ```
 #include <stdio.h>
 #include <stdlib.h>
