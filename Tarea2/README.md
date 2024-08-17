@@ -11,6 +11,8 @@
 	</a>
 </div>
 
+Repositorio: https://github.com/brandonT2002/SO1_2S2024_202112030/tree/main/Tarea2
+
 ``` bash
 NAMES=("container1" "container2" "container3" "container4" "container5"
         "container6" "container7" "container8" "container9" "container10")
