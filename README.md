@@ -7,6 +7,6 @@
 
 <div align="center">
 	<a href="#">
-		<img src="https://skillicons.dev/icons?i=linux,git,bash,c" />
+		<img src="https://skillicons.dev/icons?i=linux,git,bash,c,docker" />
 	</a>
 </div>
