@@ -1,0 +1,1 @@
+savedcmd_/home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.mod := printf '%s\n'   main.o | awk '!x[$$0]++ { print("/home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/"$$0) }' > /home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.mod

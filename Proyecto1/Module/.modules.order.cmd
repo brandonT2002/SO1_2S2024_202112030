@@ -1,0 +1,1 @@
+savedcmd_/home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/modules.order := {   echo /home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.o; :; } > /home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/modules.order

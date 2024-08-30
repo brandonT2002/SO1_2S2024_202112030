@@ -1,0 +1,1 @@
+savedcmd_/home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/Module.symvers :=  scripts/mod/modpost -m -a      -o /home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/Module.symvers -T /home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/modules.order -i Module.symvers -e 
