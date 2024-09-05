@@ -35,20 +35,20 @@ MODULE_INFO(retpoline, "Y");
 
 static const struct modversion_info ____versions[]
 __used __section("__versions") = {
-	{ 0xbe30ad91, "single_open" },
+	{ 0x3edadd3b, "single_open" },
 	{ 0x944375db, "_totalram_pages" },
 	{ 0x15ba50a6, "jiffies" },
 	{ 0x37befc70, "jiffies_to_msecs" },
-	{ 0xd69999a0, "init_task" },
+	{ 0x441c5e2e, "init_task" },
 	{ 0x40c7247c, "si_meminfo" },
-	{ 0x18aa09f0, "seq_printf" },
-	{ 0x75c802a7, "remove_proc_entry" },
-	{ 0xcc7295ee, "seq_read" },
+	{ 0x6d26b3a7, "seq_printf" },
+	{ 0x2394a322, "remove_proc_entry" },
+	{ 0x2fa57770, "seq_read" },
 	{ 0xbdfb6dbb, "__fentry__" },
-	{ 0x205e7ced, "proc_create" },
+	{ 0x6e2d7b65, "proc_create" },
 	{ 0x122c3a7e, "_printk" },
 	{ 0x5b8239ca, "__x86_return_thunk" },
-	{ 0x43581fb4, "module_layout" },
+	{ 0x708cd699, "module_layout" },
 };
 
 MODULE_INFO(depends, "");
