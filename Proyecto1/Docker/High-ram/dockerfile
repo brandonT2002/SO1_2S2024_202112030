@@ -1,0 +1,5 @@
+FROM python:3-alpine
+COPY . .
+WORKDIR /
+
+CMD [ "ash", "-c", "python high-ram.py" ]
