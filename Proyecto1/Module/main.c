@@ -1,174 +1,211 @@
-#include <linux/module.h> // THIS_MODULE, MODULE_VERSION, ...
-#include <linux/init.h>   // module_{init,exit}
-#include <linux/proc_fs.h>
-#include <linux/sched/signal.h> // for_each_process()
-#include <linux/seq_file.h>
-#include <linux/fs.h>
-#include <linux/sched.h>
-#include <linux/mm.h> // get_mm_rss()
+#include <linux/module.h>
 #include <linux/kernel.h>
-#include <asm/uaccess.h>
+#include <linux/string.h> 
+#include <linux/init.h>
+#include <linux/proc_fs.h> 
+#include <linux/seq_file.h> 
+#include <linux/mm.h> 
+#include <linux/sched.h> 
+#include <linux/timer.h> 
+#include <linux/jiffies.h> 
+#include <linux/uaccess.h>
+#include <linux/tty.h>
+#include <linux/sched/signal.h>
+#include <linux/fs.h>        
+#include <linux/slab.h>      
+#include <linux/sched/mm.h>
+#include <linux/binfmts.h>
+#include <linux/timekeeping.h>
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Brandon Tejaxun");
-MODULE_DESCRIPTION("Informacion RAM - CPU - Procesos");
+MODULE_AUTHOR("Brandon Tejaxún");
+MODULE_DESCRIPTION("Modulo para leer informacion de memoria y CPU en JSON");
 MODULE_VERSION("1.0");
 
-struct task_struct *task;       // sched.h para tareas/procesos
-struct task_struct *task_child; // index de tareas secundarias
-struct list_head *list;         // lista de cada tareas
-struct sysinfo si;
+#define PROC_NAME "sysinfo_202112030"
+#define MAX_CMDLINE_LENGTH 256
+#define CONTAINER_ID_LENGTH 64
 
-static void init_meminfo(void) {
-    si_meminfo(&si);
+// Función para obtener la línea de comandos de un proceso y retornar un apuntador a la cadena
+static char *get_process_cmdline(struct task_struct *task) {
+
+    /* 
+        Creamos una estructura mm_struct para obtener la información de memoria
+        Creamos un apuntador char para la línea de comandos
+        Creamos un apuntador char para recorrer la línea de comandos
+        Creamos variables para guardar las direcciones de inicio y fin de los argumentos y el entorno
+        Creamos variables para recorrer la línea de comandos
+    */
+    struct mm_struct *mm;
+    char *cmdline, *p;
+    unsigned long arg_start, arg_end, env_start;
+    int i, len;
+
+
+    // Reservamos memoria para la línea de comandos
+    cmdline = kmalloc(MAX_CMDLINE_LENGTH, GFP_KERNEL);
+    if (!cmdline)
+        return NULL;
+
+    // Obtenemos la información de memoria
+    mm = get_task_mm(task);
+    if (!mm) {
+        kfree(cmdline);
+        return NULL;
+    }
+
+    /* 
+       1. Primero obtenemos el bloqueo de lectura de la estructura mm_struct para una lectura segura
+       2. Obtenemos las direcciones de inicio y fin de los argumentos y el entorno
+       3. Liberamos el bloqueo de lectura de la estructura mm_struct
+    */
+    down_read(&mm->mmap_lock);
+    arg_start = mm->arg_start;
+    arg_end = mm->arg_end;
+    env_start = mm->env_start;
+    up_read(&mm->mmap_lock);
+
+    // Obtenemos la longitud de la línea de comandos y validamos que no sea mayor a MAX_CMDLINE_LENGTH - 1
+    len = arg_end - arg_start;
+
+    if (len > MAX_CMDLINE_LENGTH - 1)
+        len = MAX_CMDLINE_LENGTH - 1;
+
+    // Obtenemos la línea de comandos de  la memoria virtual del proceso
+    /* 
+        Por qué de la memoria virtual del proceso?
+        La memoria virtual es la memoria que un proceso puede direccionar, es decir, la memoria que un proceso puede acceder
+    */
+    if (access_process_vm(task, arg_start, cmdline, len, 0) != len) {
+        mmput(mm);
+        kfree(cmdline);
+        return NULL;
+    }
+
+    // Agregamos un caracter nulo al final de la línea de comandos
+    cmdline[len] = '\0';
+
+    // Reemplazar caracteres nulos por espacios
+    p = cmdline;
+    for (i = 0; i < len; i++)
+        if (p[i] == '\0')
+            p[i] = ' ';
+
+    // Liberamos la estructura mm_struct
+    mmput(mm);
+    return cmdline;
 }
 
-static int escribir_a_proc(struct seq_file *file_proc, void *v)
-{
-    int running = 0;
-    int sleeping = 0;
-    int zombie = 0;
-    int stopped = 0;
-    unsigned long rss;
-    unsigned long total_ram_pages;
-    
-    
-    total_ram_pages = totalram_pages();
-    if (!total_ram_pages) {
-        pr_err("No memory available\n");
-        return -EINVAL;
-    }
-    
-    #ifndef CONFIG_MMU
-        pr_err("No MMU, cannot calculate RSS.\n");
-        return -EINVAL;
-    #endif
-    
-    unsigned long total_cpu_time = jiffies_to_msecs(get_jiffies_64());
-    unsigned long total_usage = 0;
 
+/* 
+    Función para mostrar la información en el archivo /proc en formato JSON
+*/
+static int sysinfo_show(struct seq_file *m, void *v) {
+    /* 
+        Creamos una estructura sysinfo para obtener la información de memoria
+        creamos una estructura task_struct para recorrer los procesos
+        total_jiffies para obtener el tiempo total de CPU
+        first_process para saber si es el primer proceso
+    */
+    struct sysinfo si;
+    struct task_struct *task;
+    unsigned long total_jiffies = jiffies;
+    int first_process = 1;
+
+    // Obtenemos la información de memoria
+    si_meminfo(&si);
+
+
+    seq_printf(m, "{\n");
+    seq_printf(m, "\"Processes\": [\n");
+
+    // Iteramos sobre los procesos
     for_each_process(task) {
-        unsigned long cpu_time = jiffies_to_msecs(task->utime + task->stime);
-        total_usage += cpu_time;
-    }
-    init_meminfo();
-    //---------------------------------------------------------------------------
-    seq_printf(file_proc, "{\n\t\"totalram\": %lu,", si.totalram);
-    seq_printf(file_proc, "\n\t\"freeram\": %lu,", si.freeram);
-    seq_printf(file_proc, "\n\t\"cpu_total\":%ld,", total_cpu_time);
-    seq_printf(file_proc, "\n\t\"cpu_porcentaje\":%ld,", (total_usage * 100) / total_cpu_time);
-    seq_printf(file_proc, "\n\t\"processes\": [");
-    int b = 0;
+        if (strcmp(task->comm, "containerd-shim") == 0) {
+            unsigned long vsz = 0;
+            unsigned long rss = 0;
+            unsigned long totalram = si.totalram * 4;
+            unsigned long mem_usage = 0;
+            unsigned long cpu_usage = 0;
+            char *cmdline = NULL;
 
-    for_each_process(task)
-    {
-        if (task->mm)
-        {
-            rss = get_mm_rss(task->mm) << PAGE_SHIFT;
-        }
-        else
-        {
-            rss = 0;
-        }
-        if (b == 0)
-        {
-            seq_printf(file_proc, "\n\t\t{");
-            b = 1;
-        }
-        else
-        {
-            seq_printf(file_proc, ",\n\t\t{");
-        }
-        seq_printf(file_proc, "\n\t\t\t\"pid\":%d,", task->pid);
-        seq_printf(file_proc, "\n\t\t\t\"name\":\"%s\",", task->comm);
-        seq_printf(file_proc, "\n\t\t\t\"user\": %u,", task->cred->uid);
-        seq_printf(file_proc, "\n\t\t\t\"state\":%d,", task->__state);
-        int porcentaje = (rss * 100) / total_ram_pages;
-        seq_printf(file_proc, "\n\t\t\t\"ram\":%d,", porcentaje);
-
-        seq_printf(file_proc, "\n\t\t\t\"child\": [");
-        int a = 0;
-        list_for_each(list, &(task->children))
-        {
-            task_child = list_entry(list, struct task_struct, sibling);
-            if (a != 0)
-            {
-                seq_printf(file_proc, ",\n\t\t\t\t{");
-                seq_printf(file_proc, "\n\t\t\t\t\t\"pid\":%d,", task_child->pid);
-                seq_printf(file_proc, "\n\t\t\t\t\t\"name\":\"%s\",", task_child->comm);
-                seq_printf(file_proc, "\n\t\t\t\t\t\"state\":%d,", task_child->__state);
-                seq_printf(file_proc, "\n\t\t\t\t\t\"pidPadre\":%d", task->pid);
-                seq_printf(file_proc, "\n\t\t\t\t}");
+            // Obtenemos los valores de VSZ y RSS
+            if (task->mm) {
+                // Obtenemos el uso de vsz haciendo un shift de PAGE_SHIFT - 10, un PAGE_SHIFT es la cantidad de bits que se necesitan para representar un byte
+                vsz = task->mm->total_vm << (PAGE_SHIFT - 10);
+                // Obtenemos el uso de rss haciendo un shift de PAGE_SHIFT - 10
+                rss = get_mm_rss(task->mm) << (PAGE_SHIFT - 10);
+                // Obtenemos el uso de memoria en porcentaje
+                mem_usage = (rss * 10000) / totalram;
             }
-            else
-            {
-                seq_printf(file_proc, "\n\t\t\t\t{");
-                seq_printf(file_proc, "\n\t\t\t\t\t\"pid\":%d,", task_child->pid);
-                seq_printf(file_proc, "\n\t\t\t\t\t\"name\":\"%s\",", task_child->comm);
-                seq_printf(file_proc, "\n\t\t\t\t\t\"state\":%d,", task_child->__state);
-                seq_printf(file_proc, "\n\t\t\t\t\t\"pidPadre\":%d", task->pid);
-                seq_printf(file_proc, "\n\t\t\t\t}");
-                a = 1;
+
+            /* 
+                Obtenemos el tiempo total de CPU de un proceso
+                Obtenemos el tiempo total de CPU de todos los procesos
+                Obtenemos el uso de CPU en porcentaje
+                Obtenemos la línea de comandos de un proceso
+            */
+            unsigned long total_time = task->utime + task->stime;
+            cpu_usage = (total_time * 10000) / total_jiffies;
+            cmdline = get_process_cmdline(task);
+
+            if (!first_process) {
+                seq_printf(m, ",\n");
+            } else {
+                first_process = 0;
+            }
+
+            seq_printf(m, "  {\n");
+            seq_printf(m, "    \"PID\": %d,\n", task->pid);
+            seq_printf(m, "    \"Name\": \"%s\",\n", task->comm);
+            seq_printf(m, "    \"Cmdline\": \"%s\",\n", cmdline ? cmdline : "N/A");
+            seq_printf(m, "    \"MemoryUsage\": %lu.%02lu,\n", mem_usage / 100, mem_usage % 100);
+            seq_printf(m, "    \"CPUUsage\": %lu.%02lu\n", cpu_usage / 100, cpu_usage % 100);
+            seq_printf(m, "  }");
+
+
+            // Liberamos la memoria de la línea de comandos
+            if (cmdline) {
+                kfree(cmdline);
             }
         }
-        if (a != 0) {
-            seq_printf(file_proc, "\n\t\t\t]");
-        } else {
-            seq_printf(file_proc, "]");
-        }
-        a = 0;
-
-        if (task->__state == 0)
-        {
-            running += 1;
-        }
-        else if (task->__state == 1)
-        {
-            sleeping += 1;
-        }
-        else if (task->__state == 4)
-        {
-            zombie += 1;
-        }
-        else
-        {
-            stopped += 1;
-        }
-        seq_printf(file_proc, "\n\t\t}");
     }
-    b = 0;
-    seq_printf(file_proc, "\n\t],");
-    seq_printf(file_proc, "\n\t\"running\":%d,", running);
-    seq_printf(file_proc, "\n\t\"sleeping\":%d,", sleeping);
-    seq_printf(file_proc, "\n\t\"zombie\":%d,", zombie);
-    seq_printf(file_proc, "\n\t\"stopped\":%d,", stopped);
-    seq_printf(file_proc, "\n\t\"total\":%d", running + sleeping + zombie + stopped);
-    seq_printf(file_proc, "\n}");
+
+    seq_printf(m, "\n]\n}\n");
     return 0;
 }
 
-static int abrir_aproc(struct inode *inode, struct file *file)
-{
-    return single_open(file, escribir_a_proc, NULL);
+/* 
+    Función que se ejecuta al abrir el archivo /proc
+*/
+static int sysinfo_open(struct inode *inode, struct file *file) {
+    return single_open(file, sysinfo_show, NULL);
 }
 
-static struct proc_ops archivo_operaciones = {
-    .proc_open = abrir_aproc,
-    .proc_read = seq_read
+/* 
+    Estructura que contiene las operaciones del archivo /proc
+*/
+static const struct proc_ops sysinfo_ops = {
+    .proc_open = sysinfo_open,
+    .proc_read = seq_read,
 };
 
-static int __init modulo_init(void)
-{
-    proc_create("sysinfo_202112030", 0, NULL, &archivo_operaciones);
-    printk(KERN_INFO "Insertar Modulo\n");
+/* 
+    Función de inicialización del módulo
+*/
+static int __init sysinfo_init(void) {
+    proc_create(PROC_NAME, 0, NULL, &sysinfo_ops);
+    printk(KERN_INFO "sysinfo_202112030\n");
     return 0;
 }
 
-static void __exit modulo_cleanup(void)
-{
-    remove_proc_entry("sysinfo_202112030", NULL);
-    printk(KERN_INFO "Remover Modulo\n");
+/* 
+    Función de limpieza del módulo
+*/
+static void __exit sysinfo_exit(void) {
+    remove_proc_entry(PROC_NAME, NULL);
+    printk(KERN_INFO "sysinfo_202112030\n");
 }
 
-module_init(modulo_init);
-module_exit(modulo_cleanup);
+module_init(sysinfo_init);
+module_exit(sysinfo_exit);

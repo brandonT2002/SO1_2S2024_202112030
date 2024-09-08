@@ -36,12 +36,21 @@ MODULE_INFO(retpoline, "Y");
 static const struct modversion_info ____versions[]
 __used __section("__versions") = {
 	{ 0x3edadd3b, "single_open" },
-	{ 0x944375db, "_totalram_pages" },
 	{ 0x15ba50a6, "jiffies" },
-	{ 0x37befc70, "jiffies_to_msecs" },
-	{ 0x441c5e2e, "init_task" },
 	{ 0x40c7247c, "si_meminfo" },
 	{ 0x6d26b3a7, "seq_printf" },
+	{ 0x441c5e2e, "init_task" },
+	{ 0xe2d5255a, "strcmp" },
+	{ 0x4c03a563, "random_kmalloc_seed" },
+	{ 0xf2999cd4, "kmalloc_caches" },
+	{ 0x4524dc3a, "kmalloc_trace" },
+	{ 0xd0df9f72, "get_task_mm" },
+	{ 0x668b19a1, "down_read" },
+	{ 0x53b954a2, "up_read" },
+	{ 0x91cb5be4, "access_process_vm" },
+	{ 0x5c1531ec, "mmput" },
+	{ 0x37a0cba, "kfree" },
+	{ 0xf0fdf6cb, "__stack_chk_fail" },
 	{ 0x2394a322, "remove_proc_entry" },
 	{ 0x2fa57770, "seq_read" },
 	{ 0xbdfb6dbb, "__fentry__" },
@@ -54,4 +63,4 @@ __used __section("__versions") = {
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "A9B5288C5EDD413A3646C3A");
+MODULE_INFO(srcversion, "941BDAA1D6ABABF47768789");
