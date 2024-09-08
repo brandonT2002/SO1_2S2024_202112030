@@ -3,7 +3,6 @@ savedcmd_/home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.o := gcc-12
 source_/home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.o := /home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.c
 
 deps_/home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.o := \
-    $(wildcard include/config/MMU) \
   include/linux/compiler-version.h \
     $(wildcard include/config/CC_VERSION_TEXT) \
   include/linux/kconfig.h \
@@ -321,6 +320,7 @@ deps_/home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.o := \
     $(wildcard include/config/HAVE_PREEMPT_DYNAMIC_KEY) \
     $(wildcard include/config/PREEMPT_) \
     $(wildcard include/config/DEBUG_ATOMIC_SLEEP) \
+    $(wildcard include/config/MMU) \
     $(wildcard include/config/PROVE_LOCKING) \
   include/linux/align.h \
   include/linux/array_size.h \
@@ -1087,6 +1087,103 @@ deps_/home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.o := \
   include/linux/vm_event_item.h \
     $(wildcard include/config/MEMORY_BALLOON) \
     $(wildcard include/config/BALLOON_COMPACTION) \
+  include/linux/tty.h \
+    $(wildcard include/config/TTY) \
+  include/uapi/linux/major.h \
+  include/uapi/linux/termios.h \
+  arch/x86/include/generated/uapi/asm/termios.h \
+  include/uapi/asm-generic/termios.h \
+  arch/x86/include/generated/uapi/asm/termbits.h \
+  include/uapi/asm-generic/termbits.h \
+  include/uapi/asm-generic/termbits-common.h \
+  arch/x86/include/generated/uapi/asm/ioctls.h \
+  include/uapi/asm-generic/ioctls.h \
+  include/linux/tty_buffer.h \
+  include/linux/tty_driver.h \
+    $(wildcard include/config/CONSOLE_POLL) \
+  include/linux/cdev.h \
+  include/linux/device.h \
+    $(wildcard include/config/HAS_IOMEM) \
+    $(wildcard include/config/GENERIC_MSI_IRQ) \
+    $(wildcard include/config/ENERGY_MODEL) \
+    $(wildcard include/config/PINCTRL) \
+    $(wildcard include/config/DMA_OPS) \
+    $(wildcard include/config/DMA_DECLARE_COHERENT) \
+    $(wildcard include/config/DMA_CMA) \
+    $(wildcard include/config/SWIOTLB) \
+    $(wildcard include/config/SWIOTLB_DYNAMIC) \
+    $(wildcard include/config/ARCH_HAS_SYNC_DMA_FOR_DEVICE) \
+    $(wildcard include/config/ARCH_HAS_SYNC_DMA_FOR_CPU) \
+    $(wildcard include/config/ARCH_HAS_SYNC_DMA_FOR_CPU_ALL) \
+    $(wildcard include/config/DMA_OPS_BYPASS) \
+    $(wildcard include/config/PM_SLEEP) \
+    $(wildcard include/config/OF) \
+    $(wildcard include/config/DEVTMPFS) \
+  include/linux/dev_printk.h \
+  include/linux/energy_model.h \
+  include/linux/sched/cpufreq.h \
+    $(wildcard include/config/CPU_FREQ) \
+  include/linux/sched/topology.h \
+    $(wildcard include/config/SCHED_DEBUG) \
+    $(wildcard include/config/SCHED_CLUSTER) \
+    $(wildcard include/config/SCHED_MC) \
+    $(wildcard include/config/CPU_FREQ_GOV_SCHEDUTIL) \
+  include/linux/sched/idle.h \
+  include/linux/sched/sd_flags.h \
+  include/linux/klist.h \
+  include/linux/pm.h \
+    $(wildcard include/config/VT_CONSOLE_SLEEP) \
+    $(wildcard include/config/CXL_SUSPEND) \
+    $(wildcard include/config/PM) \
+    $(wildcard include/config/PM_CLK) \
+    $(wildcard include/config/PM_GENERIC_DOMAINS) \
+  include/linux/device/bus.h \
+    $(wildcard include/config/ACPI) \
+  include/linux/device/class.h \
+  include/linux/device/driver.h \
+  arch/x86/include/asm/device.h \
+  include/linux/pm_wakeup.h \
+  include/linux/tty_ldisc.h \
+  include/linux/tty_port.h \
+  include/linux/kfifo.h \
+  include/linux/scatterlist.h \
+    $(wildcard include/config/NEED_SG_DMA_LENGTH) \
+    $(wildcard include/config/NEED_SG_DMA_FLAGS) \
+    $(wildcard include/config/DEBUG_SG) \
+    $(wildcard include/config/SGL_ALLOC) \
+    $(wildcard include/config/ARCH_NO_SG_CHAIN) \
+    $(wildcard include/config/SG_POOL) \
+  arch/x86/include/asm/io.h \
+    $(wildcard include/config/MTRR) \
+    $(wildcard include/config/X86_PAT) \
+  arch/x86/include/generated/asm/early_ioremap.h \
+  include/asm-generic/early_ioremap.h \
+    $(wildcard include/config/GENERIC_EARLY_IOREMAP) \
+  arch/x86/include/asm/shared/io.h \
+  include/asm-generic/io.h \
+    $(wildcard include/config/GENERIC_IOMAP) \
+    $(wildcard include/config/TRACE_MMIO_ACCESS) \
+    $(wildcard include/config/GENERIC_IOREMAP) \
+    $(wildcard include/config/HAS_IOPORT_MAP) \
+  include/asm-generic/iomap.h \
+  include/asm-generic/pci_iomap.h \
+    $(wildcard include/config/PCI) \
+    $(wildcard include/config/NO_GENERIC_PCI_IOPORT_MAP) \
+    $(wildcard include/config/GENERIC_PCI_IOMAP) \
+  include/linux/logic_pio.h \
+    $(wildcard include/config/INDIRECT_PIO) \
+  include/linux/fwnode.h \
+  include/linux/vmalloc.h \
+    $(wildcard include/config/HAVE_ARCH_HUGE_VMALLOC) \
+  arch/x86/include/asm/vmalloc.h \
+  arch/x86/include/asm/pgtable_areas.h \
+  include/uapi/linux/tty_flags.h \
+  include/uapi/linux/tty.h \
+  include/linux/binfmts.h \
+    $(wildcard include/config/COREDUMP) \
+    $(wildcard include/config/BINFMT_MISC) \
+  arch/x86/include/asm/exec.h \
+  include/uapi/linux/binfmts.h \
 
 /home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.o: $(deps_/home/jefferson/Escritorio/lab-sopes1/Proyecto1/Module/main.o)
 
