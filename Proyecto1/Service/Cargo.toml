@@ -1,0 +1,11 @@
+[package]
+name = "Service"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+reqwest = { version = "0.11", features = ["json"] }  # Para manejar peticiones HTTP
+serde = { version = "1.0", features = ["derive"] }   # Para serializar/deserializar JSON
+serde_json = "1.0"                                   # Para manejar JSON
+signal-hook = "0.3"                                  # Para manejar señales (Ctrl + C)
+chrono = "0.4"                                       # Para manejar fechas y tiempos en logs
