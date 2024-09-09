@@ -61,71 +61,79 @@ static char *get_process_cmdline(struct task_struct *task) {
     return cmdline;
 }
 
-static int sysinfo_show(struct seq_file *m, void *v) {
+static int sysinfo_show(struct seq_file *m, void *v)
+{
     struct sysinfo si;
     struct task_struct *task;
-    unsigned long totalram, freeram, usedram;
-    unsigned long total_jiffies = jiffies;
-    unsigned long total_cpu_time = 0;
+    struct task_struct *hijos;
     int first_process = 1;
+    unsigned long total_jiffies = jiffies;
 
     // Obtener la información de memoria
     si_meminfo(&si);
-    totalram = si.totalram << (PAGE_SHIFT - 10); // totalram en KB
-    freeram = si.freeram << (PAGE_SHIFT - 10);   // freeram en KB
-    usedram = totalram - freeram;                // usedram en KB
+    unsigned long totalram = si.totalram * (PAGE_SIZE / 1024); // Convertir páginas a KB
+    unsigned long freeram = si.freeram * (PAGE_SIZE / 1024);   // Convertir páginas a KB
+    unsigned long ram_usada = totalram - freeram;
 
-    // Mostrar la información de memoria en JSON
-    seq_printf(m, "{\n");
-    seq_printf(m, "\"Memory\": {\n");
-    seq_printf(m, "\t\"TotalRAM\": %lu KB,\n", totalram);
-    seq_printf(m, "\t\"FreeRAM\": %lu KB,\n", freeram);
-    seq_printf(m, "\t\"UsedRAM\": %lu KB\n", usedram);
-    seq_printf(m, "},\n");
+    // Imprimir información de memoria
+    seq_printf(m, "  {\n");
+    seq_printf(m, "\"SystemInfo\": \n");
+    seq_printf(m, "\t{\n");
+    seq_printf(m, "\t\t\"Total_RAM\": %lu,\n", totalram);
+    seq_printf(m, "\t\t\"Free_RAM\": %lu,\n", freeram);
+    seq_printf(m, "\t\t\"Used_RAM\": %lu\n", ram_usada);
+    seq_printf(m, "\t},\n");
 
-    // Mostrar la información de procesos en JSON
     seq_printf(m, "\"Processes\": [\n");
 
-    for_each_process(task) {
-        if (strcmp(task->comm, "containerd-shim") == 0) {
+    // Iterar sobre los procesos
+    for_each_process(task)
+    {
+        if (strcmp(task->comm, "containerd-shim") == 0)
+        {
             unsigned long vsz = 0;
             unsigned long rss = 0;
             unsigned long mem_usage = 0;
             unsigned long cpu_usage = 0;
             char *cmdline = NULL;
+            
+            list_for_each_entry(hijos, &task->children, sibling)
+            {
+                if (hijos->mm)
+                {
+                    // Obtener el uso de memoria virtual y física
+                    vsz = hijos->mm->total_vm << (PAGE_SHIFT - 10); // Convertir a KB
+                    rss = get_mm_rss(hijos->mm) << (PAGE_SHIFT - 10); // Convertir a KB
+                    mem_usage = (rss * 10000) / totalram; // Porcentaje de memoria
+                }
 
-            if (task->mm) {
-                // Obtener el tamaño de memoria virtual y física
-                vsz = task->mm->total_vm << (PAGE_SHIFT - 10); // vsz en KB
-                rss = get_mm_rss(task->mm) << (PAGE_SHIFT - 10); // rss en KB
-                mem_usage = (rss * 100) / totalram;
-            }
+                // Obtener el tiempo total de CPU
+                unsigned long total_time = (task->utime + task->stime) + (hijos->utime + hijos->stime);
+                cpu_usage = (total_time * 10000) / (total_jiffies * HZ); // Porcentaje de CPU
 
-            // Obtener el tiempo total de CPU para este proceso
-            unsigned long total_time = task->utime + task->stime;
-            total_cpu_time += total_time;
+                cmdline = get_process_cmdline(task);
 
-            // Obtener el uso de CPU como porcentaje
-            cpu_usage = (total_time * 100) / total_jiffies;
+                if (!first_process)
+                {
+                    seq_printf(m, ",\n");
+                }
+                else
+                {
+                    first_process = 0;
+                }
 
-            cmdline = get_process_cmdline(task);
+                seq_printf(m, "\t{\n");
+                seq_printf(m, "\t\t\"PID\": %d,\n", task->pid);
+                seq_printf(m, "\t\t\"Name\": \"%s\",\n", task->comm);
+                seq_printf(m, "\t\t\"Cmdline\": \"%s\",\n", cmdline ? cmdline : "N/A");
+                seq_printf(m, "\t\t\"MemoryUsage\": %lu.%02lu,\n", mem_usage / 100, mem_usage % 100);
+                seq_printf(m, "\t\t\"CPUUsage\": %lu.%02lu\n", cpu_usage / 100, cpu_usage % 100);
+                seq_printf(m, "\t}");
 
-            if (!first_process) {
-                seq_printf(m, ",\n");
-            } else {
-                first_process = 0;
-            }
-
-            seq_printf(m, "\t{\n");
-            seq_printf(m, "\t\t\"PID\": %d,\n", task->pid);
-            seq_printf(m, "\t\t\"Name\": \"%s\",\n", task->comm);
-            seq_printf(m, "\t\t\"Cmdline\": \"%s\",\n", cmdline ? cmdline : "N/A");
-            seq_printf(m, "\t\t\"MemoryUsage\": %lu KB,\n", mem_usage / 100, mem_usage % 100);
-            seq_printf(m, "\t\t\"CPUUsage\": %lu.%02lu%%\n", cpu_usage, cpu_usage % 100);
-            seq_printf(m, "\t}");
-
-            if (cmdline) {
-                kfree(cmdline);
+                if (cmdline)
+                {
+                    kfree(cmdline);
+                }
             }
         }
     }
@@ -133,6 +141,7 @@ static int sysinfo_show(struct seq_file *m, void *v) {
     seq_printf(m, "\n]\n}\n");
     return 0;
 }
+
 
 
 static int sysinfo_open(struct inode *inode, struct file *file) {
