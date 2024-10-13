@@ -17,9 +17,13 @@ if [ -z "$(docker images -q low-ram-image)" ]; then
     docker build -t low-ram-image ./Low-ram/
 fi
 
-# Eliminar todos los contenedores existentes si los hay
+# Eliminar todos los contenedores existentes excepto el contenedor de Docker Compose
 if [ "$(docker ps -a -q)" ]; then
-    docker rm -f $(docker ps -a -q)
+    # Lista todos los contenedores excepto el contenedor 'log_container'
+    containers_to_remove=$(docker ps -a -q | grep -v $(docker ps -a -q -f name=log_container))
+    if [ -n "$containers_to_remove" ]; then
+        docker rm -f $containers_to_remove
+    fi
 fi
 
 # Array de imágenes
