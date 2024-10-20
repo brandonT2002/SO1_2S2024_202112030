@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api_ht
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api_ht
+  template:
+    metadata:
+      labels:
+        app: api_ht
+    spec:
+      containers:
+      - name: api_ht
+        image: gcr.io/iron-figure-439204-h6/api_ht:v1
+        ports:
+        - containerPort: 8080
