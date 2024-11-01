@@ -43,12 +43,12 @@ async fn handle_student(student: web::Json<StudentData>) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    println!("Starting server at http://localhost:8080");
+    println!("Starting server at http://localhost:8000");
     HttpServer::new(|| {
         App::new()
             .route("/faculty", web::post().to(handle_student))
     })
-    .bind("127.0.0.1:8080")?
+    .bind("127.0.0.1:8000")?
     .run()
     .await
 }
