@@ -9,9 +9,9 @@ RUN go mod download
 COPY . .
 
 RUN go build \
-  -ldflags="-linkmode external -extldflags -static" \
-  -tags netgo \
-  -o client
+    -ldflags="-linkmode external -extldflags -static" \
+    -tags netgo \
+    -o client
 
 FROM scratch
 
