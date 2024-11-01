@@ -1,0 +1,602 @@
+[
+    {
+        "student": "Luc\u00eda Su\u00e1rez",
+        "age": 21,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Ana Torres",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Mariana Blanco",
+        "age": 20,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Pedro Ram\u00edrez",
+        "age": 21,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Diego Ortega",
+        "age": 24,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Mateo Medina",
+        "age": 21,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Camila S\u00e1nchez",
+        "age": 23,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Sof\u00eda P\u00e9rez",
+        "age": 21,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Isabel Rojas",
+        "age": 21,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Juan Morales",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Gabriela G\u00f3mez",
+        "age": 24,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Carlos Rojas",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Luis Soto",
+        "age": 22,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Juan Morales",
+        "age": 24,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Laura Torres",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Laura G\u00f3mez",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Ana Mendoza",
+        "age": 23,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Mateo Soto",
+        "age": 23,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Carla Blanco",
+        "age": 25,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Isabel Ruiz",
+        "age": 20,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Ana Morales",
+        "age": 20,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Gabriela Torres",
+        "age": 24,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Luc\u00eda S\u00e1nchez",
+        "age": 21,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Camila Ram\u00edrez",
+        "age": 22,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Carla Mendoza",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Mariana Mendoza",
+        "age": 24,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Laura Mart\u00ednez",
+        "age": 23,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Mateo Blanco",
+        "age": 20,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Mateo Su\u00e1rez",
+        "age": 23,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Camila Flores",
+        "age": 22,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Pablo Rojas",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Laura Su\u00e1rez",
+        "age": 24,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Ra\u00fal Flores",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Andr\u00e9s Castillo",
+        "age": 22,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Mariana Ortega",
+        "age": 22,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Luc\u00eda S\u00e1nchez",
+        "age": 21,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Andr\u00e9s Mendoza",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Carlos Su\u00e1rez",
+        "age": 21,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Mateo Vargas",
+        "age": 23,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Andr\u00e9s Mendoza",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Camila Ruiz",
+        "age": 22,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Sof\u00eda Mendoza",
+        "age": 21,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Jorge Mart\u00ednez",
+        "age": 23,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Camila S\u00e1nchez",
+        "age": 23,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Juan L\u00f3pez",
+        "age": 22,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Gabriela Rojas",
+        "age": 21,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Isabel Fern\u00e1ndez",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Isabel Su\u00e1rez",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Sof\u00eda Castillo",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Carla Medina",
+        "age": 24,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Mariana Ram\u00edrez",
+        "age": 21,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Jorge Vargas",
+        "age": 25,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Carla Fern\u00e1ndez",
+        "age": 20,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Mateo Ortega",
+        "age": 24,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Andr\u00e9s Medina",
+        "age": 25,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Carla Soto",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Isabel Mendoza",
+        "age": 22,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Mariana Flores",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Camila Rojas",
+        "age": 24,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Gabriela Flores",
+        "age": 23,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Carlos Castillo",
+        "age": 22,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Laura Fern\u00e1ndez",
+        "age": 23,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Isabel Blanco",
+        "age": 22,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Pedro Medina",
+        "age": 23,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Laura Flores",
+        "age": 24,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Mariana Soto",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Laura Soto",
+        "age": 24,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Mariana Mendoza",
+        "age": 23,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Juan G\u00f3mez",
+        "age": 22,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Luis S\u00e1nchez",
+        "age": 23,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Carla S\u00e1nchez",
+        "age": 20,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Mateo Vargas",
+        "age": 20,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Ana S\u00e1nchez",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Ra\u00fal Vargas",
+        "age": 24,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Gabriela Medina",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Luis Blanco",
+        "age": 23,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Ana Ortega",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Sof\u00eda Soto",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Camila Blanco",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Luis Ortega",
+        "age": 21,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Andr\u00e9s Rojas",
+        "age": 22,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Carlos Mendoza",
+        "age": 20,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Mateo G\u00f3mez",
+        "age": 23,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Juan Fern\u00e1ndez",
+        "age": 22,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Mariana L\u00f3pez",
+        "age": 21,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Pedro Medina",
+        "age": 24,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Jorge P\u00e9rez",
+        "age": 22,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Gabriela Morales",
+        "age": 24,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Mariana P\u00e9rez",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Juan L\u00f3pez",
+        "age": 21,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Ra\u00fal G\u00f3mez",
+        "age": 24,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Pedro L\u00f3pez",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Mateo Rojas",
+        "age": 20,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 2
+    },
+    {
+        "student": "Ra\u00fal Su\u00e1rez",
+        "age": 21,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Pablo Torres",
+        "age": 21,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    },
+    {
+        "student": "Mariana Ram\u00edrez",
+        "age": 22,
+        "faculty": "Agronomia",
+        "discipline": 1
+    },
+    {
+        "student": "Jorge Blanco",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 2
+    },
+    {
+        "student": "Mariana Castillo",
+        "age": 23,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 3
+    },
+    {
+        "student": "Sof\u00eda S\u00e1nchez",
+        "age": 25,
+        "faculty": "Agronomia",
+        "discipline": 3
+    },
+    {
+        "student": "Jorge Mart\u00ednez",
+        "age": 24,
+        "faculty": "Ingenier\u00eda",
+        "discipline": 1
+    }
+]
