@@ -4,7 +4,7 @@ use studentgrpc::StudentRequest;
 use serde::{Deserialize, Serialize};
 
 pub mod studentgrpc {
-    tonic::include_proto!("student");
+    tonic::include_proto!("grpcstudent");
 }
 
 #[derive(Deserialize,Serialize)]
