@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"flag"
-	pb "grpc-example/proto"
 	"log"
+	pb "proyecto2/proto"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
