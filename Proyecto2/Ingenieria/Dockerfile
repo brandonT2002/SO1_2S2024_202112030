@@ -13,15 +13,11 @@ COPY . .
 RUN cargo build --release
 
 # Runtime stage
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
-# Install necessary runtime libraries
 RUN apt-get update && apt-get install -y libssl1.1 ca-certificates && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-
-# Copy the built binary from the builder stage
 COPY --from=builder /usr/src/app/target/release/grpc-client .
 
-# Set the startup command
 CMD ["./grpc-client"]

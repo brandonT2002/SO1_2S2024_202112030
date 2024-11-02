@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: so1-proyecto2
+  labels:
+    name: ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: 34.41.150.52.nip.io
+    http:
+      paths:
+      - path: /engineering
+        pathType: Prefix
+        backend:
+          service:
+            name: engineering-service
+            port:
+              number: 8080
+      - path: /agronomy
+        pathType: Prefix
+        backend:
+          service:
+            name: agronomy-service
+            port:
+              number: 8080

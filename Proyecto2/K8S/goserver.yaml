@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: grpc-server-go
-        image: alvarog1318/server-go:latest
+        image: brandont2002/golang-server-grpc:latest
         resources:
           limits:
             memory: "128Mi"
