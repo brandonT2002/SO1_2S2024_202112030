@@ -1,37 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grpc-client-go
+  name: agronomy-deployment
   namespace: sopes1
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: grpc-client-go
+      app: agronomy-app
   template:
     metadata:
       labels:
-        app: grpc-client-go
+        app: agronomy-app
     spec:
       containers:
-      - name: grpc-client-go
-        image: brandont2002/golang-client-grpc:0.1
+      - name: agronomy-app-container
+        image: brandont2002/golang-client-grpc:0.3
+        ports:
+        - containerPort: 8080  # El puerto que tu aplicación en Go escucha
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "0.3"
-        ports:
-        - containerPort: 8080
+            cpu: "0.25"
+            memory: "50Mi"
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-client-service #DNS
+  name: agronomy-service
   namespace: sopes1
 spec:
   selector:
-    app: grpc-client-go
+    app: agronomy-app
   ports:
-    - protocol: TCP
-      port: 8080 # Entrada
-      targetPort: 8080 # Salida
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
   type: ClusterIP

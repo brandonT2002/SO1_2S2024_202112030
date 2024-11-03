@@ -12,76 +12,78 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var (
-	addr = flag.String("addr", "go-server-service:50051", "the address to connect to")
-)
-
 type Student struct {
-	Name       string `json:"name"`
+	Student    string `json:"student"`
 	Age        int    `json:"age"`
 	Faculty    string `json:"faculty"`
 	Discipline int    `json:"discipline"`
 }
 
+var (
+	athleticsAddr = flag.String("athleticsAddr", "athletics-service:50051", "athletics service address")
+	swimmingAddr  = flag.String("athleticsAddr", "athletics-service:50051", "athletics service address")
+	boxingAddr    = flag.String("athleticsAddr", "athletics-service:50051", "athletics service address")
+)
+
 func sendData(fiberCtx *fiber.Ctx) error {
 	var body Student
 	if err := fiberCtx.BodyParser(&body); err != nil {
 		return fiberCtx.Status(400).JSON(fiber.Map{
-			"error": err.Error(),
+			"error":   "Cannot parse body",
+			"message": err.Error(),
 		})
 	}
 
-	// Set up a connection to the server.
-	conn, err := grpc.NewClient(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	var serviceAddr string
+	switch body.Discipline {
+	case 1:
+		serviceAddr = *athleticsAddr
+	case 2:
+		serviceAddr = *swimmingAddr
+	case 3:
+		serviceAddr = *boxingAddr
+	default:
+		return fiberCtx.Status(400).JSON(fiber.Map{
+			"error": "Invalid discipline",
+		})
+	}
+
+	conn, err := grpc.NewClient(serviceAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		return fiberCtx.Status(500).JSON(fiber.Map{
+			"error":   "Cannot connect to service",
+			"message": err.Error(),
+		})
 	}
 	defer conn.Close()
+
 	c := pb.NewStudentClient(conn)
 
-	// Create a channel to receive the response and error
-	responseChan := make(chan *pb.StudentResponse)
-	errorChan := make(chan error)
-	go func() {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
 
-		// Contact the server and print out its response.
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
+	r, err := c.GetStudentReq(ctx, &pb.StudentRequest{
+		Student:    body.Student,
+		Faculty:    body.Faculty,
+		Age:        int32(body.Age),
+		Discipline: pb.Discipline(body.Discipline),
+	})
 
-		r, err := c.GetStudent(ctx, &pb.StudentRequest{
-			Name:       body.Name,
-			Age:        int32(body.Age),
-			Faculty:    body.Faculty,
-			Discipline: pb.Discipline(body.Discipline),
-		})
-
-		if err != nil {
-			errorChan <- err
-			return
-		}
-
-		responseChan <- r
-	}()
-
-	select {
-	case response := <-responseChan:
-		return fiberCtx.JSON(fiber.Map{
-			"message": response.GetSuccess(),
-		})
-	case err := <-errorChan:
+	if err != nil {
 		return fiberCtx.Status(500).JSON(fiber.Map{
-			"error": err.Error(),
-		})
-	case <-time.After(5 * time.Second):
-		return fiberCtx.Status(500).JSON(fiber.Map{
-			"error": "timeout",
+			"error":   "Cannot get student",
+			"message": err.Error(),
 		})
 	}
+
+	return fiberCtx.Status(200).JSON(fiber.Map{
+		"success": r.Success,
+	})
 }
 
 func main() {
 	app := fiber.New()
-	app.Post("/faculty", sendData)
+	app.Post("/agronomy", sendData)
 
 	err := app.Listen(":8080")
 	if err != nil {

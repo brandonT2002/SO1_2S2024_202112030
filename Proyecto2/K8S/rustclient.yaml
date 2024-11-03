@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: grpc-client-rust
-        image: brandont2002/rust-client-grpc:0.1
+        image: brandont2002/rust-client-grpc:0.3
         resources:
           limits:
             memory: "128Mi"

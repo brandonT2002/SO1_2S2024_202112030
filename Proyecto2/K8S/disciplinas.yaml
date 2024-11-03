@@ -1,37 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grpc-server-go
+  name: athletics-app
   namespace: sopes1
 spec:
   selector:
     matchLabels:
-      app: grpc-server-go
+      app: athletics-app
   template:
     metadata:
       labels:
-        app: grpc-server-go
+        app: athletics-app
     spec:
       containers:
-      - name: grpc-server-go
-        image: brandont2002/golang-server-grpc:0.3
+      - name: athletics-app
+        image: brandont2002/disciplinas:0.3
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "0.3"
+            memory: "120Mi"
+            cpu: "0.2"
         ports:
         - containerPort: 50051
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-server-service #DNS
+  name: athletics-service
   namespace: sopes1
 spec:
   selector:
-    app: grpc-server-go
+    app: athletics-app
   ports:
-    - protocol: TCP
-      port: 50051
-      targetPort: 50051
+  - protocol: TCP
+    port: 50051
+    targetPort: 50051
   type: ClusterIP
